@@ -62,6 +62,7 @@ type GitHubRepository implements Repository & Webpage {
     owner: String!
     name: String!
     fullName: String!
+    stars: Int!
     # lastModified: DateTime!
 
     workflows: [GitHubWorkflow!]

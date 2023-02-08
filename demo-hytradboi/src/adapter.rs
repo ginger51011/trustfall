@@ -318,6 +318,9 @@ impl Adapter<'static> for DemoAdapter {
             ("GitHubRepository", "lastModified") => {
                 impl_property!(data_contexts, as_github_repository, updated_at)
             }
+            ("GitHubRepository", "stars") => {
+                impl_property!(data_contexts, as_github_repository, stargazers_count)
+            }
 
             // properties on GitHubWorkflow
             ("GitHubWorkflow", "name") => impl_property!(data_contexts, as_github_workflow, wf, {
@@ -758,7 +761,10 @@ fn resolve_url(url: &str) -> Option<Token> {
                     git_url.name.as_str(),
                 );
                 match RUNTIME.block_on(future) {
-                    Ok(repo) => Some(Repository::new(url.to_string(), Rc::new(repo)).into()),
+                    Ok(repo) => {
+                        let stars = repo.stargazers_count;
+                        Some(Repository::new(url.to_string(), Rc::new(repo), stars).into())
+                    }
                     Err(e) => {
                         eprintln!("Error getting repository information for url {url}: {e}",);
                         None

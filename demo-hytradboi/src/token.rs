@@ -28,11 +28,12 @@ pub enum Token {
 pub struct Repository {
     pub url: String,
     pub repo: Rc<FullRepository>,
+    pub stars: i64,
 }
 
 impl Repository {
-    pub(crate) fn new(url: String, repo: Rc<FullRepository>) -> Self {
-        Self { url, repo }
+    pub(crate) fn new(url: String, repo: Rc<FullRepository>, stars: i64) -> Self {
+        Self { url, repo, stars }
     }
 }
 
