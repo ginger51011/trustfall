@@ -1,0 +1,26 @@
+InputQuery (
+    query: r#"
+        {
+            MostDownloadedCrates {
+                crate: name @output(name: "crateName")
+                latestVersion @output
+                
+                repository @fold @transform(op: "count") @filter(op: "=", value: ["$zero"]) {
+                    ... on GitHubRepository {
+                        url @output
+                        workflows {
+                            jobs {
+                                name @output(name: "jobName") @filter(op: "has_substring", value: ["$job_name"])   
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    
+    "#,
+    args: {
+        "zero": Uint64(0),
+        "job_name": String("test"),
+    },
+)
