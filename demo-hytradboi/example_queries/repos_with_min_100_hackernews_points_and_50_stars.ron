@@ -1,0 +1,24 @@
+InputQuery (
+    query: r#"
+{
+  HackerNewsTop(max: 1000) {
+    ... on HackerNewsStory {
+      url @output
+      score @filter(op: "<=", value: ["$max_score"])
+            @output
+
+      link {
+        ... on GitHubRepository {
+          stars @filter(op: ">=", value: ["$min_stars"])
+                @output
+          url @output
+        }
+      }
+    }
+  }
+}"#,
+    args: {
+        "max_score": Uint64(50),
+        "min_stars": Uint64(200)
+    }
+)
