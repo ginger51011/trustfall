@@ -81,6 +81,9 @@ pub enum ParseError {
     #[error("Edge {1} specifies a duplicated parameter {0}")]
     DuplicatedEdgeParameter(String, String, Pos),
 
+    #[error("Property field \"{0}\" on root query")]
+    RootQueryPropertyField(String, Pos),
+
     #[error("Unexpected error: {0}")]
     OtherError(String, Pos),
 }
