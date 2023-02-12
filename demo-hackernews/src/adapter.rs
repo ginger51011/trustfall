@@ -7,6 +7,7 @@ use trustfall_core::{
         helpers::{resolve_coercion_with, resolve_neighbors_with, resolve_property_with},
     },
     ir::{EdgeParameters, FieldValue},
+    property_resolver,
 };
 
 use crate::token::Token;
@@ -94,21 +95,6 @@ macro_rules! item_property_resolver {
             } else {
                 unreachable!()
             }
-        }
-    };
-}
-
-macro_rules! property_resolver {
-    ($conversion:ident, $attr:ident) => {
-        |vertex| -> FieldValue {
-            let vertex = vertex.$conversion().expect("conversion failed");
-            (&vertex.$attr).into()
-        }
-    };
-    ($conversion:ident, $var:ident, $b:block) => {
-        |vertex| -> FieldValue {
-            let $var = vertex.$conversion().expect("conversion failed");
-            $b
         }
     };
 }
